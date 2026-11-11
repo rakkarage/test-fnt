@@ -1,22 +1,16 @@
 @tool
 extends Control
 
-@onready var test_label = $VBoxContainer/TestLabel
-@onready var size_label = $VBoxContainer/SizeLabel
-@onready var test_label2 = $VBoxContainer/TestLabel2
-@onready var size_label2 = $VBoxContainer/SizeLabel2
-@onready var test_label3 = $VBoxContainer/TestLabel3
-@onready var size_label3 = $VBoxContainer/SizeLabel3
+@onready var grid: GridContainer = $ScrollContainer/VBoxContainer/SizeGrid
+
+const SAMPLE := "ABCDEFG 0123"
 
 func _ready():
-	# Connect to window resize so it updates when toggling fullscreen
-	get_window().size_changed.connect(_update_measurements)
-	
-	# Wait a frame to ensure layout is calculated
+	get_window().size_changed.connect(_update_grid)
 	await get_tree().process_frame
-	_update_measurements()
+	_build_grid()
+	_update_grid()
 
-# Add this function to toggle fullscreen
 func _unhandled_input(event):
 	if event is InputEventKey and event.pressed and event.keycode == KEY_F11:
 		var current_mode = DisplayServer.window_get_mode()
@@ -25,37 +19,68 @@ func _unhandled_input(event):
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 
-# Moved your measurement code into a function so it can be called on resize
-func _update_measurements():
-	# Test 1
-	var font = test_label.get_theme_font("font")
-	var font_size = test_label.get_theme_font_size("font_size")
-	var string_size = font.get_string_size("ABCDEFG", HORIZONTAL_ALIGNMENT_LEFT, -1, font_size)
-	var font_height = font.get_height(font_size)
-	size_label.text = "Font Size setting: %d\nMeasured Text: %d x %d\nFont Height: %d" % [
-		font_size, string_size.x, string_size.y, font_height
-	]
-	print("--- MVP DEBUG 1 ---")
-	print("Font Height: ", font_height, " | Measured String: ", string_size)
+func _build_grid():
+	for child in grid.get_children():
+		child.queue_free()
 
-	# Test 2
-	var font2 = test_label2.get_theme_font("font")
-	var font_size2 = test_label2.get_theme_font_size("font_size")
-	var string_size2 = font2.get_string_size("ABCDEFG", HORIZONTAL_ALIGNMENT_LEFT, -1, font_size2)
-	var font_height2 = font2.get_height(font_size2)
-	size_label2.text = "Font Size setting: %d\nMeasured Text: %d x %d\nFont Height: %d" % [
-		font_size2, string_size2.x, string_size2.y, font_height2
+	var fonts := [
+		{"name": "SuperWhite", "font": load("res://Font/SuperWhite.fnt"), "base": 12},
+		{"name": "SuperBlack", "font": load("res://Font/SuperBlack.fnt"), "base": 12},
+		{"name": "Venice", "font": load("res://Font/Venice.fnt"), "base": 16},
 	]
-	print("--- MVP DEBUG 2 ---")
-	print("Font Height: ", font_height2, " | Measured String: ", string_size2)
+	var scales := [1, 2, 4]
 
-	# Test 3
-	var font3 = test_label3.get_theme_font("font")
-	var font_size3 = test_label3.get_theme_font_size("font_size")
-	var string_size3 = font3.get_string_size("ABCDEFG", HORIZONTAL_ALIGNMENT_LEFT, -1, font_size3)
-	var font_height3 = font3.get_height(font_size3)
-	size_label3.text = "Font Size setting: %d\nMeasured Text: %d x %d\nFont Height: %d" % [
-		font_size3, string_size3.x, string_size3.y, font_height3
-	]
-	print("--- MVP DEBUG 3 ---")
-	print("Font Height: ", font_height3, " | Measured String: ", string_size3)
+	# Header row
+	_add_header("Font")
+	for s in scales:
+		_add_header("x%d" % s)
+
+	for entry in fonts:
+		var name_label := Label.new()
+		name_label.text = "%s\n(base %d)" % [entry.name, entry.base]
+		grid.add_child(name_label)
+
+		for s in scales:
+			var cell := VBoxContainer.new()
+			var sample := Label.new()
+			sample.text = SAMPLE
+			var font_size: int = entry.base * s
+			sample.add_theme_font_override("font", entry.font)
+			sample.add_theme_font_size_override("font_size", font_size)
+			sample.set_meta("font_res", entry.font)
+			sample.set_meta("font_size", font_size)
+			sample.set_meta("scale", s)
+
+			var metrics := Label.new()
+			metrics.autowrap_mode = TextServer.AUTOWRAP_OFF
+			metrics.set_meta("metrics_for", sample.get_path())
+
+			cell.add_child(sample)
+			cell.add_child(metrics)
+			grid.add_child(cell)
+
+func _add_header(text: String) -> void:
+	var l := Label.new()
+	l.text = text
+	grid.add_child(l)
+
+func _update_grid():
+	if not is_instance_valid(grid):
+		return
+	# GridContainer holds header + 3 rows * 4 cols = 16 children
+	for cell in grid.get_children():
+		if cell is VBoxContainer:
+			var sample: Label = cell.get_child(0)
+			var metrics: Label = cell.get_child(1)
+			var font: Font = sample.get_theme_font("font")
+			var font_size: int = sample.get_theme_font_size("font_size")
+			var string_size := font.get_string_size(sample.text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size)
+			var font_height := font.get_height(font_size)
+			var ascent := font.get_ascent(font_size)
+			var descent := font.get_descent(font_size)
+			metrics.text = "size=%d\nmeasured=%dx%d\nheight=%d (a=%d d=%d)" % [
+				font_size, int(string_size.x), int(string_size.y), font_height, ascent, descent
+			]
+			print("--- %s x%s --- size=%d measured=%s height=%d ascent=%d descent=%d" % [
+				font.resource_path.get_file(), sample.get_meta("scale"), font_size, string_size, font_height, ascent, descent
+			])

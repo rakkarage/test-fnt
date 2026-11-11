@@ -14,42 +14,22 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_8uh7m")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2042086877]
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=2042086877]
 layout_mode = 0
-offset_left = 50.0
-offset_top = 50.0
-offset_right = 400.0
-offset_bottom = 400.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 1100.0
+offset_bottom = 700.0
 
-[node name="TestLabel" type="Label" parent="VBoxContainer" unique_id=2139865543]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer" unique_id=2042086878]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("1_font")
-text = "ABCDEFG"
 
-[node name="SizeLabel" type="Label" parent="VBoxContainer" unique_id=1259988796]
+[node name="InfoLabel" type="Label" parent="ScrollContainer/VBoxContainer" unique_id=2042086879]
 layout_mode = 2
-text = "Font Size setting: 16
-Measured Text: 47 x 12
-Font Height: 12"
+text = "Bitmap .fnt resize grid (base size * 1, 2, 4)"
 
-[node name="TestLabel2" type="Label" parent="VBoxContainer" unique_id=1033503956]
+[node name="SizeGrid" type="GridContainer" parent="ScrollContainer/VBoxContainer" unique_id=2042086880]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("3_ppyta")
-text = "ABCDEFG"
-
-[node name="SizeLabel2" type="Label" parent="VBoxContainer" unique_id=129987667]
-layout_mode = 2
-text = "Font Size setting: 16
-Measured Text: 47 x 12
-Font Height: 12"
-
-[node name="TestLabel3" type="Label" parent="VBoxContainer" unique_id=870817787]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("4_ykrsh")
-text = "ABCDEFG"
-
-[node name="SizeLabel3" type="Label" parent="VBoxContainer" unique_id=703932386]
-layout_mode = 2
-text = "Font Size setting: 16
-Measured Text: 47 x 12
-Font Height: 12"
+columns = 4
+theme_override_constants/h_separation = 24
+theme_override_constants/v_separation = 16
