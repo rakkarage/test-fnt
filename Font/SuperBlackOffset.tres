@@ -1,0 +1,7 @@
+[gd_resource type="FontVariation" format=3 uid="uid://d3gjdh8fueirh"]
+
+[ext_resource type="FontFile" uid="uid://bn2nxiytfv00k" path="res://Visual/Font/SuperBlack.fnt" id="1_0ij4d"]
+
+[resource]
+base_font = ExtResource("1_0ij4d")
+spacing_bottom = 4
