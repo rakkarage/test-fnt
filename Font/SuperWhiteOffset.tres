@@ -1,7 +1,0 @@
-[gd_resource type="FontVariation" format=3 uid="uid://b8w5vvh432ki1"]
-
-[ext_resource type="FontFile" uid="uid://vxvgk6iccvf3" path="res://Visual/Font/SuperWhite.fnt" id="1_jn6mg"]
-
-[resource]
-base_font = ExtResource("1_jn6mg")
-spacing_bottom = 4

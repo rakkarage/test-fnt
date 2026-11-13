@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://qoku7saa71l0"]
 
 [ext_resource type="Script" uid="uid://b8ht13wo1pb17" path="res://test.gd" id="1_8uh7m"]
-[ext_resource type="FontFile" uid="uid://vxvgk6iccvf3" path="res://Font/SuperWhite.fnt" id="1_font"]
-[ext_resource type="FontFile" uid="uid://bn2nxiytfv00k" path="res://Font/SuperBlack.fnt" id="3_ppyta"]
-[ext_resource type="FontFile" uid="uid://bafxu0ve0uy3c" path="res://Font/Venice.fnt" id="4_ykrsh"]
+[ext_resource type="FontFile" uid="uid://vxvgk6iccvf3" path="res://Font/SuperWhite12.fnt" id="1_font"]
+[ext_resource type="FontFile" uid="uid://bn2nxiytfv00k" path="res://Font/SuperBlack12.fnt" id="3_ppyta"]
+[ext_resource type="FontFile" uid="uid://bafxu0ve0uy3c" path="res://Font/Venice16.fnt" id="4_ykrsh"]
 
 [node name="Main" type="Control" unique_id=2144558730]
 layout_mode = 3
