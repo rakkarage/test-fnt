@@ -24,8 +24,7 @@ func _build_grid():
 		child.queue_free()
 
 	var fonts := [
-		{"name": "SuperWhite", "font": load("res://Font/SuperWhite12.fnt"), "base": 12},
-		{"name": "SuperBlack", "font": load("res://Font/SuperBlack12.fnt"), "base": 12},
+		{"name": "Super", "font": load("res://Font/Super12.fnt"), "base": 12},
 		{"name": "Venice", "font": load("res://Font/Venice16.fnt"), "base": 16},
 	]
 	var scales := [1, 2, 4]

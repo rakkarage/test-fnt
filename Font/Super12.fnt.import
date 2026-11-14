@@ -1,0 +1,17 @@
+[remap]
+
+importer="font_data_bmfont"
+type="FontFile"
+uid="uid://vxvgk6iccvf3"
+path="res://.godot/imported/Super12.fnt-02019bd09d44d11b51f1711c6b957a01.fontdata"
+
+[deps]
+
+source_file="res://Font/Super12.fnt"
+dest_files=["res://.godot/imported/Super12.fnt-02019bd09d44d11b51f1711c6b957a01.fontdata"]
+
+[params]
+
+fallbacks=[]
+compress=true
+scaling_mode=1
