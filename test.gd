@@ -52,11 +52,10 @@ func _build_grid():
 
 			var metrics := Label.new()
 			metrics.autowrap_mode = TextServer.AUTOWRAP_OFF
-			metrics.set_meta("metrics_for", sample.get_path())
-
 			cell.add_child(sample)
 			cell.add_child(metrics)
 			grid.add_child(cell)
+			metrics.set_meta("metrics_for", sample.get_path())
 
 func _add_header(text: String) -> void:
 	var l := Label.new()
